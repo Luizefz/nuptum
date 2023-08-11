@@ -1,4 +1,4 @@
-import os
+import webbrowser
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from scraper import download_music, search_music
@@ -45,4 +45,8 @@ class MainApp(MDApp):
         self.screen.ids.music_name.text = ""
 
         print("Music downloaded successfully!")
+
+        print("Playing music...")
+        webbrowser.open(music_info['path_music'])
+        
 MainApp().run()
