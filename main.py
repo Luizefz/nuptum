@@ -20,8 +20,12 @@ class SearchScreen(Screen):
 
             self.ids.music_name.text = ""  # Clear the text input after downloading
             
-            print("Playing music...")
-            webbrowser.open(music_info['path_music'])
+            try: 
+                print("Playing music...")
+                webbrowser.open(music_info['path_music'])           
+            except Exception as e:
+                print(e)
+                return False
         else:
             return
 

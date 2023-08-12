@@ -28,7 +28,6 @@ def download_music(url_video):
     try:
         video = YouTube(url_video)
         audio_stream = video.streams.filter(only_audio=True).first().download(output_path='musics') # Get the audio stream
-        # music_downloaded = audio_stream # Download the audio stream
 
         music = {
             'name': video.title,
