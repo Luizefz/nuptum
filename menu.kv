@@ -1,0 +1,51 @@
+ManagerScreen:
+    HomeScreen:
+        id: homescreen
+    SearchScreen:
+        id: searchscreen
+
+
+<HomeScreen>:
+    name: "homescreen"
+    Image:
+        pos_hint: {"center_x": .25, "center_y": 0.9}
+        width: 100
+        source: 'assets/Nuptum_logo.png'
+    
+    MDIconButton:
+        icon: "plus"
+        md_bg_color: "#0F8E76"
+        pos_hint: {"center_x": 0.85, "center_y": 0.9}
+        font_size: "26sp"
+        on_release: app.root.current = "searchscreen"
+
+<SearchScreen>:
+    name: "searchscreen"
+
+    MDIconButton:
+        icon: "chevron-left"
+        md_bg_color: "#272829"
+        pos_hint: {"center_x": .15, "center_y": 0.9}
+        font_size: "26sp"
+        on_release: app.root.current = "homescreen"
+
+    MDTextField:
+        id: music_name
+        mode: "round"
+        fill_color_normal: "#272829"
+        line_color_focus: "#FFF6E0"
+        text_color_focus: "#FFF6E0"
+        error_color: "#BCBCBC"
+        hint_text: "Nome da música"
+        required: True
+        pos_hint: {"center_x": .45, "center_y": .6}
+        size_hint_x: .6
+        helper_text_mode: "on_error"
+        helper_text: "Ex: Post Malone - One right now"
+
+    MDIconButton:
+        icon: "magnify"
+        md_bg_color: "#0F8E76"
+        pos_hint: {"center_x": 0.85, "center_y": .6}
+        font_size: "26sp"
+        on_release: root.start_download()

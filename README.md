@@ -1,2 +1,7 @@
-# Nuptum 🎶
-O Nuptum é um projeto de MP3 player que contém qualquer música do youtube feito em python com a biblioteca Kivy
+# Nuptum - Python youtube downloader ⚡
+
+## O que é o Nuptum? 💁🏽
+
+O Nuptum é um projeto desenvolvido nas aulas de PISI **somente e exclusivamente para fins educacionais**, visando aplicação do conhecimento em Python, utilizando a biblioteca Kivy.
+
+Nele você pode fazer o download de video postados no youtube, de um jeito prático.
