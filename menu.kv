@@ -7,17 +7,42 @@ ManagerScreen:
 
 <HomeScreen>:
     name: "homescreen"
-    Image:
-        pos_hint: {"center_x": .25, "center_y": 0.9}
-        width: 100
-        source: 'assets/Nuptum_logo.png'
-    
-    MDIconButton:
-        icon: "plus"
-        md_bg_color: "#0F8E76"
-        pos_hint: {"center_x": 0.85, "center_y": 0.9}
-        font_size: "26sp"
-        on_release: app.root.current = "searchscreen"
+    MDFloatLayout:
+        MDFloatLayout:
+            Image:
+                pos_hint: {"center_x": .25, "center_y": 0.9}
+                width: 100
+                source: 'assets/Nuptum_logo.png'
+                        
+            MDIconButton:
+                icon: "plus"
+                md_bg_color: "#0F8E76"
+                pos_hint: {"center_x": 0.85, "center_y": 0.9}
+                font_size: "26sp"
+                on_release: app.root.current = "searchscreen"
+
+        MDLabel:
+            text: "Billboard Hot 100"
+            post_hint: {"center_x": .2, "center_y": .75}
+            font_size: "18sp"
+        ScrollView:
+            on_scroll_y: False
+            on_scroll_x: True
+            pos_hint: {"center_y": .62}
+            size_hint_y: .3
+            bar_width: 0
+            GridLayout:
+                size_hint_x: None
+                height: self.minimum_height
+                width: self.minimum_width
+                mb_bg_color: "#341332"
+                rows: 1
+                spacing: 10
+                padding: 18, 0
+                Image:
+                    source: 'assets/Album_post.png'
+                    size_hint: None, None
+                    size: "120dp", "180dp"
 
 <SearchScreen>:
     name: "searchscreen"
@@ -36,12 +61,12 @@ ManagerScreen:
         line_color_focus: "#FFF6E0"
         text_color_focus: "#FFF6E0"
         error_color: "#BCBCBC"
-        hint_text: "Nome da música"
+        hint_text: "Pesquisar"
         required: True
         pos_hint: {"center_x": .45, "center_y": .6}
         size_hint_x: .6
         helper_text_mode: "on_error"
-        helper_text: "O que desejas pesquisar?"
+        helper_text: "Preencha este campo"
 
     MDIconButton:
         icon: "magnify"
