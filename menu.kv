@@ -21,13 +21,6 @@ ManagerScreen:
         pos_hint: {"center_x": 0.80, "center_y": 0.9}
         on_release: app.root.current = "searchscreen"
     
-    MDIconButton:
-        icon: "refresh"
-        user_font_size: "72sp"
-        md_bg_color: "#0F8E76"
-        pos_hint: {"center_x": 0.80, "center_y": 0.8}
-        on_release: root.search_top_songs()
-
     MDLabel:
         text: "Today Top Songs"
         font_name: "fonts/Poppins-Medium.ttf"
@@ -46,7 +39,7 @@ ManagerScreen:
         bar_width: 0
 
         GridLayout:
-            id: top_songs_grid
+            id: top_today_grid
             size_hint_x: None
             width: self.minimum_width
             height: self.minimum_height
@@ -61,17 +54,56 @@ ManagerScreen:
                 size: "130dp", "140dp"
                 spacing: "10dp"
                 FitImage:
-                    source: 'assets/Album2.png'
+                    source: 'assets/LoadButton.png'
                     size_hint: None, None
                     size: "130dp", "130dp"
                     radius: 8
+                    on_touch_up: root.show_tranding_musics()
                 Label:
-                    text: "Post Malone"
-                    font_size: "16sp"
+                    text: " "
+                    font_size: "14sp"
                     color: "#FFF6E0"
                     font_name: "fonts/Poppins-SemiBold.ttf"
+
+    MDLabel:
+        text: "Month Top Songs"
+        font_name: "fonts/Poppins-Medium.ttf"
+        color: "#BCBCBC"
+        font_size: "22sp"
+        pos_hint: {"center_y": 0.37, "center_x": 0.5}
+        size_hint: 0.64, None
+        height: "40dp"
+
+    ScrollView:
+        do_scroll_y: False
+        do_scroll_x: True 
+        pos_hint: {'center_y': 0.17, 'center_x': .52}
+        size_hint: 0.63, 0
+        size_hint_y: .3
+        bar_width: 0
+
+        GridLayout:
+            id: top_month_grid
+            size_hint_x: None
+            width: self.minimum_width
+            height: self.minimum_height
+            rows: 1
+            spacing: 10
+            padding: 5
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: None
+                width: "130dp"
+                size: "130dp", "140dp"
+                spacing: "10dp"
+                FitImage:
+                    source: 'assets/LoadButton.png'
+                    size_hint: None, None
+                    size: "130dp", "130dp"
+                    radius: 8
+                    on_touch_up: root.show_top_month_musics()
                 Label:
-                    text: "Postone"
+                    text: " "
                     font_size: "14sp"
                     color: "#FFF6E0"
                     font_name: "fonts/Poppins-SemiBold.ttf"
@@ -100,6 +132,7 @@ ManagerScreen:
         size_hint_x: .6
         helper_text_mode: "on_error"
         helper_text: "Preencha este campo"
+        on_text_validate: root.start_download()
 
     MDIconButton:
         icon: "magnify"

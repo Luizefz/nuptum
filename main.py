@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.fitimage import FitImage
 from kivy.uix.label import Label
 from scraper import download_music, search_music
-from web_requests import get_top_song
+from web_requests import tranding_musics, top_month_musics
 
 
 class ManagerScreen(ScreenManager):
@@ -14,47 +14,63 @@ class ManagerScreen(ScreenManager):
 
 
 class HomeScreen(Screen):
-    def search_top_songs(self):
-        # response = get_top_song(self)
-        # data = response["chart_items"]
 
-        # print(response["chart_items"][0]["item"]["title"])
+    def show_tranding_musics(self):
+        parsed_top_musics = tranding_musics()
 
-        # for element in data:
-        #     try:
+        self.ids.top_today_grid.clear_widgets()
+
+        for music in parsed_top_musics['chart_items']:
+            chart_item = music["item"]
+            music_title = chart_item["title"]
+            music_author = chart_item["artist_names"]
+            music_thumbnail = chart_item["header_image_url"]
+
+            self.add_music_card('top_today_grid', music_title,
+                                music_author, music_thumbnail)
+
+    def show_top_month_musics(self):
+        parsed_top_musics = top_month_musics()
+
+        self.ids.top_month_grid.clear_widgets()
+
+        for music in parsed_top_musics['chart_items']:
+            chart_item = music["item"]
+            music_title = chart_item["title"]
+            music_author = chart_item["artist_names"]
+            music_thumbnail = chart_item["header_image_url"]
+
+            self.add_music_card('top_month_grid', music_title,
+                                music_author, music_thumbnail)
+
+    def add_music_card(self, music_carousel_id, music_title, music_author, music_thumbnail):
+
         box_layout = BoxLayout(orientation='vertical',
-                                    size_hint_x=None,
-                                    width="130dp",
-                                    size=("130dp", "140dp"),
-                                    spacing="10dp")
-                
-                # print(element["item"]["title"])
-                # print(element["item"]["artist_names"])
-
-        song_title = Label(text='Teste',
-                                font_size="14sp",
-                                color="#FFF6E0",
-                                font_name="fonts/Poppins-SemiBold.ttf")
-
-        artist_name = Label(text='Teste',
-                                    font_size="16sp",
-                                    color="#FFF6E0",
-                                    font_name="fonts/Poppins-SemiBold.ttf")
-
-        song_thumbnail_url = FitImage(source='https://images.genius.com/0388650ccc155fa3c34453d5011c6774.320x320x1.jpg',
-                                            size_hint=(None, None),
-                                            size=("130dp", "130dp"),
-                                            radius=8)
+                               size_hint_x=None,
+                               width="130dp",
+                               size=("130dp", "140dp"),
+                               spacing="10dp")
+        song_title = Label(text=music_title[:15],
+                           font_size="16sp",
+                           color="#FFF6E0",
+                           font_name="fonts/Poppins-SemiBold.ttf")
+        artist_name = Label(text=music_author[:15],
+                            font_size="14sp",
+                            color="#FFF6E0",
+                            font_name="fonts/Poppins-SemiBold.ttf")
+        song_thumbnail_url = FitImage(source=music_thumbnail,
+                                      size_hint=(None, None),
+                                      size=("130dp", "130dp"),
+                                      radius=8)
 
         box_layout.add_widget(song_thumbnail_url)
         box_layout.add_widget(song_title)
         box_layout.add_widget(artist_name)
 
-        self.ids.top_songs_grid.add_widget(box_layout)
-        #     except Exception as e:
-        #         print(e)
-
-        # return
+        if music_carousel_id == 'top_today_grid':
+            self.ids.top_today_grid.add_widget(box_layout)
+        elif music_carousel_id == 'top_month_grid':
+            self.ids.top_month_grid.add_widget(box_layout)
 
 
 class SearchScreen(Screen):
@@ -62,7 +78,6 @@ class SearchScreen(Screen):
         music_name = self.ids.music_name.text
         if music_name:
             music_url = search_music(music_name)
-
             music_info = download_music(music_url)
 
             self.ids.music_name.text = ""  # Clear the text input after downloading
