@@ -1,3 +1,4 @@
+import json
 import webbrowser
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -5,8 +6,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.fitimage import FitImage
 from kivy.uix.label import Label
-from scraper import download_music, search_music
-from web_requests import tranding_musics, top_month_musics
+from scraper import download_music, search_music, filename
+from web_requests import tranding_musics
 
 
 class ManagerScreen(ScreenManager):
@@ -29,21 +30,29 @@ class HomeScreen(Screen):
             self.add_music_card('top_today_grid', music_title,
                                 music_author, music_thumbnail)
 
-    def show_top_month_musics(self):
-        parsed_top_musics = top_month_musics()
+    def show_recently_musics(self):
+        try:
+            with open(filename, "r") as json_file:  # Carrega os dados existentes do arquivo
+                existing_data = json.load(json_file)
 
-        self.ids.top_month_grid.clear_widgets()
+            parsed_top_musics = existing_data
 
-        for music in parsed_top_musics['chart_items']:
-            chart_item = music["item"]
-            music_title = chart_item["title"]
-            music_author = chart_item["artist_names"]
-            music_thumbnail = chart_item["header_image_url"]
+            self.ids.top_month_grid.clear_widgets()
 
-            self.add_music_card('top_month_grid', music_title,
-                                music_author, music_thumbnail)
+            if parsed_top_musics:
+                for music_id, music in parsed_top_musics.items():
+                    music_title = music['music_title']
+                    music_author = music['music_author']
+                    music_thumbnail = music['music_thumbnail']
 
-    def add_music_card(self, music_carousel_id, music_title, music_author, music_thumbnail):
+                    self.add_music_card('top_month_grid', music_title,
+                                        music_author, music_thumbnail, music["path_music"])
+
+        except Exception as e:
+            print(e)
+            return False
+
+    def add_music_card(self, music_carousel_id, music_title, music_author, music_thumbnail, music_url=None):
 
         box_layout = BoxLayout(orientation='vertical',
                                size_hint_x=None,

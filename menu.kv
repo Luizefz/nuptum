@@ -66,7 +66,7 @@ ManagerScreen:
                     font_name: "fonts/Poppins-SemiBold.ttf"
 
     MDLabel:
-        text: "Month Top Songs"
+        text: "Recently downloaded"
         font_name: "fonts/Poppins-Medium.ttf"
         color: "#BCBCBC"
         font_size: "22sp"
@@ -96,18 +96,12 @@ ManagerScreen:
                 width: "130dp"
                 size: "130dp", "140dp"
                 spacing: "10dp"
-                FitImage:
-                    source: 'assets/LoadButton.png'
-                    size_hint: None, None
-                    size: "130dp", "130dp"
-                    radius: 8
-                    on_touch_up: root.show_top_month_musics()
-                Label:
-                    text: " "
-                    font_size: "14sp"
-                    color: "#FFF6E0"
-                    font_name: "fonts/Poppins-SemiBold.ttf"
-
+    MDIconButton:
+        icon: "refresh"
+        user_font_size: "72sp"
+        md_bg_color: "#0F8E76"
+        pos_hint: {"center_x": 0.80, "center_y": 0.37}
+        on_release: root.show_recently_musics()
                     
 <SearchScreen>:
     name: "searchscreen"
