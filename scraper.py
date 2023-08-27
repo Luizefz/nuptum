@@ -1,4 +1,5 @@
 import re
+import os
 import json
 from unidecode import unidecode
 from pytube import YouTube
@@ -31,12 +32,16 @@ def download_music(url_video):
         video = YouTube(url_video)
         audio_stream = video.streams.filter(only_audio=True).first().download(
             output_path='musics') # Pega o stream de audio e faz o download
+        
+        base_name, ext = os.path.splitext(audio_stream)
+        audio_stream_mp3 = base_name + ".mp3"
+        os.rename(audio_stream, audio_stream_mp3) # Renomeia o arquivo para .mp3
 
         music = {
             'music_title': video.title,
             'music_author': video.author,
             'music_thumbnail': video.thumbnail_url,
-            'path_music': audio_stream
+            'path_music': audio_stream_mp3
         }
 
         print("Music downloaded successfully!")

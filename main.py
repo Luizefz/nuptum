@@ -81,6 +81,8 @@ class HomeScreen(Screen):
         elif music_carousel_id == 'top_month_grid':
             self.ids.top_month_grid.add_widget(box_layout)
 
+        box_layout.bind(on_touch_down=lambda instance, touch: self.on_music_card_touch(box_layout, touch, music_url))
+
 
 class SearchScreen(Screen):
     def start_download(self):
@@ -90,15 +92,24 @@ class SearchScreen(Screen):
             music_info = download_music(music_url)
 
             self.ids.music_name.text = ""  # Clear the text input after downloading
-
-            try:
-                print("Playing music...")
-                webbrowser.open(music_info['path_music'])
-            except Exception as e:
-                print(e)
-                return False
+            
+            self.play_music(music_info['path_music'])
+            # try:
+            #     print("Playing music...")
+            #     webbrowser.open(music_info['path_music'])
+            # except Exception as e:
+            #     print(e)
+            #     return False
         else:
             return
+        
+    def play_music(self, music_path):
+        try:
+            print("Playing music...")
+            webbrowser.open(music_path)
+        except Exception as e:
+            print(e)
+            return False
 
 
 class MainApp(MDApp):
